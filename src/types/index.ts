@@ -35,6 +35,8 @@ export interface AgentInfo {
   firewall?: string;
   rules_applied?: number;
   last_error?: string;
+  /** false: the server's log has no domain names, so visits to all its sites land on one site. */
+  logs_have_domain?: boolean;
 }
 
 export interface Site extends SiteSummary {

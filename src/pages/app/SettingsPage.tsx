@@ -94,6 +94,19 @@ function AgentPanel({ siteId }: { siteId: number }) {
           </span>
         )}
       </div>
+      {info?.logs_have_domain === false && (
+        <div className="plain-banner">
+          <div>
+            <b>Several websites on this server?</b>
+            <p>
+              Its log doesn’t say which website each visit was for, so they all show up here. Run this once on the server; it asks before changing anything and
+              can be undone:
+            </p>
+            <code className="mono-text">sudo httpowl-agent setup-logs</code>
+            <p>Then add each website in HTTPowl with its domain, and its visits go to its own dashboard.</p>
+          </div>
+        </div>
+      )}
       {command ? (
         <div className="install-command">
           <code>{command}</code>

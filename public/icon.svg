@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- HTTPowl mark: two amber owl eyes on the app background (same as .owl-mark). -->
+  <rect width="64" height="64" rx="14" fill="#06080c"/>
+  <circle cx="21" cy="32" r="11" fill="#ffb547"/>
+  <circle cx="43" cy="32" r="11" fill="#ffb547"/>
+  <circle cx="21" cy="32" r="3.5" fill="#16120c"/>
+  <circle cx="43" cy="32" r="3.5" fill="#16120c"/>
+</svg>

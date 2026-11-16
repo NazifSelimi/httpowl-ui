@@ -1,0 +1,31 @@
+/*
+ * Small additions on top of 01-dashboard.css
+ * (site menu in the sidebar, inline error lines, You/Protected badges). Same variables as 01-dashboard.css.
+ */
+
+.site-menu { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; padding: 6px; border: 1px solid var(--owl-line); border-radius: 12px; background: #0c1118; }
+.site-menu-item { padding: 8px 9px; border: 0; border-radius: 8px; background: transparent; color: var(--owl-muted); font-size: 12px; text-align: left; cursor: pointer; }
+.site-menu-item:hover, .site-menu-item.active { background: #131b26; color: var(--owl-text); }
+.form-error { display: flex; align-items: center; gap: 6px; margin: 10px 0; color: var(--owl-danger); font-size: 12px; }
+.form-error svg { flex: 0 0 auto; }
+.sidebar-help { text-decoration: none; }
+.help-button { text-decoration: none; }
+.protected-badge { display: inline-flex; align-items: center; padding: 5px 10px; border: 1px solid #31545b; border-radius: 8px; background: #102024; color: var(--owl-cyan); font-size: 11px; font-weight: 600; }
+
+/* Requests grouped by IP (components/dashboard/IpGroupsTable) */
+.ip-group-row { cursor: pointer; }
+.ip-group-row:hover td, .ip-group-row.expanded td { background: #0f151d; }
+.ip-group-ip { display: flex; align-items: center; gap: 8px; }
+.ip-group-ip > svg { flex: 0 0 auto; width: 14px; color: var(--owl-dim); }
+.ip-group-ip > span { display: flex; flex-direction: column; }
+.ip-group-count { display: block; color: var(--owl-text); font-size: 13px; }
+.ip-group-path { display: block; max-width: 320px; overflow: hidden; color: #b8c4d2; text-overflow: ellipsis; white-space: nowrap; }
+.ip-group-path small { color: var(--owl-dim); }
+.ip-groups-table .country-sub { display: block; margin-top: 3px; }
+.ip-group-detail td { padding: 4px 18px 16px 40px; background: #0b1017; }
+.ip-group-detail ul { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.ip-group-detail li { display: grid; grid-template-columns: 80px minmax(0, 1fr) 90px 50px; align-items: center; gap: 12px; }
+.ip-group-reason { margin: 8px 0; color: var(--owl-muted); font-size: 11px; }
+.view-switch { display: inline-flex; gap: 2px; margin-left: auto; padding: 2px; border: 1px solid var(--owl-line); border-radius: 10px; }
+.view-switch button { padding: 6px 10px; border: 0; border-radius: 8px; background: transparent; color: var(--owl-muted); font-size: 11px; cursor: pointer; }
+.view-switch button.active { background: #13232a; color: var(--owl-cyan); }

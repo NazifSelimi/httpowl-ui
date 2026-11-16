@@ -1,0 +1,15 @@
+/*
+ * Global stylesheet — imported once, by main.tsx.
+ *
+ * Imported in this order on purpose: a later file wins over an earlier one
+ * at equal specificity.
+ *   01-dashboard.css – app shell, dashboard pages, auth and onboarding
+ *   02-landing.css   – Tailwind + shadcn theme and the marketing page
+ *   03-app.css       – badges, menus and error lines added later
+ * Colours come from the variables at the top of each file (var(--owl-cyan), …).
+ * The Google fonts are loaded with a <link> in index.html so they never block rendering.
+ */
+
+@import './01-dashboard.css';
+@import './02-landing.css';
+@import './03-app.css';

@@ -108,6 +108,20 @@ function AddBlockForm({ siteId }: { siteId: number }) {
 /** Says which websites this site's blocks reach, and warns when one-website blocks aren't active yet. */
 function ScopeBanner({ site, activeCount }: { site?: Site; activeCount: number }) {
   if (!site) return null;
+  const failure = site.agent_info?.site_blocks_error;
+  if (failure) {
+    return (
+      <div className="plain-banner banner-red" role="alert">
+        <div>
+          <b>Website blocks are NOT active.</b>
+          <p className="form-error">{failure}</p>
+          {site.agent_info?.site_blocks === 'nginx' && (
+            <p>Your server kept its previous list, so your websites stay up. Fix the problem above on the server; HTTPowl retries every 30 seconds.</p>
+          )}
+        </div>
+      </div>
+    );
+  }
   if (site.block_scope === 'site') {
     const notActive = site.agent_info && site.agent_info.site_blocks !== 'nginx' && activeCount > 0;
     return (

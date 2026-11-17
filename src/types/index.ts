@@ -39,6 +39,8 @@ export interface AgentInfo {
   logs_have_domain?: boolean;
   /** "nginx" when blocks for one website only are set up on the server (`setup-blocks`). */
   site_blocks?: string;
+  /** Why one-website blocks are not working right now (nginx rejected the list, reload failed). */
+  site_blocks_error?: string;
 }
 
 export interface Site extends SiteSummary {

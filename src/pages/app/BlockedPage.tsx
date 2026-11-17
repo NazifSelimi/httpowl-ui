@@ -8,11 +8,12 @@
 import { useState, type FormEvent } from 'react';
 import { ArrowDownRight, LockKeyhole, RotateCcw, ShieldCheck } from 'lucide-react';
 import { useCheckRuleMutation, useCreateRuleMutation, useGetRulesQuery, useRemoveRuleMutation, useRestoreRuleMutation } from '@/features/rules/api';
+import { useGetSiteQuery } from '@/features/sites/api';
 import { useCurrentSite } from '@/hooks/useCurrentSite';
 import { hasRole } from '@/shared/constants';
 import { extractErrorMessage } from '@/shared/utils/error';
 import { formatDateTime } from '@/shared/utils/format';
-import type { Rule, RuleCheck, RuleKind } from '@/types';
+import type { Rule, RuleCheck, RuleKind, Site } from '@/types';
 import PageHeading from '@/components/layout/PageHeading';
 import LoadingState from '@/components/layout/LoadingState';
 import ErrorNotice from '@/components/layout/ErrorNotice';
@@ -104,9 +105,44 @@ function AddBlockForm({ siteId }: { siteId: number }) {
   );
 }
 
+/** Says which websites this site's blocks reach, and warns when one-website blocks aren't active yet. */
+function ScopeBanner({ site, activeCount }: { site?: Site; activeCount: number }) {
+  if (!site) return null;
+  if (site.block_scope === 'site') {
+    const notActive = site.agent_info && site.agent_info.site_blocks !== 'nginx' && activeCount > 0;
+    return (
+      <div className="plain-banner">
+        <div>
+          <b>Only {site.domain}.</b>
+          <p>Blocks here keep visitors away from this website only. Your other websites on the same server stay open to them.</p>
+          {notActive && (
+            <>
+              <p className="form-error">These blocks aren’t active yet: the server needs a one-time setup. Run this on it; it asks first and can be undone:</p>
+              <code className="mono-text">sudo httpowl-agent setup-blocks</code>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+  if (!site.serves?.length) return null;
+  return (
+    <div className="plain-banner">
+      <div>
+        <b>Whole server.</b>
+        <p>
+          Blocks here keep visitors away from every website on this server: {[site.domain, ...site.serves].join(', ')}. To block someone from one website only,
+          open that website and block them there.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function BlockedPage() {
   const { siteId, role } = useCurrentSite();
   const canEdit = hasRole(role, 'admin');
+  const { data: site } = useGetSiteQuery(siteId, { skip: !siteId });
   const { data: rules = [], isLoading, error } = useGetRulesQuery(siteId, { skip: !hasRole(role, 'viewer') });
   const [removeRule, removeState] = useRemoveRuleMutation();
   const [restoreRule, restoreState] = useRestoreRuleMutation();
@@ -162,6 +198,8 @@ export default function BlockedPage() {
           <p>HTTPowl only blocks what you approve, and never you, your server or your SSH session. Select “Undo” to let anyone back in.</p>
         </div>
       </div>
+
+      <ScopeBanner site={site} activeCount={active.length} />
 
       {canEdit && <AddBlockForm siteId={siteId} />}
       <ErrorNotice error={error ?? removeState.error ?? restoreState.error} />

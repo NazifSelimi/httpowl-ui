@@ -37,6 +37,8 @@ export interface AgentInfo {
   last_error?: string;
   /** false: the server's log has no domain names, so visits to all its sites land on one site. */
   logs_have_domain?: boolean;
+  /** "nginx" when blocks for one website only are set up on the server (`setup-blocks`). */
+  site_blocks?: string;
 }
 
 export interface Site extends SiteSummary {
@@ -45,6 +47,9 @@ export interface Site extends SiteSummary {
   token_prefix?: string;
   /** Server IPs and live SSH sessions: the API never lets these be blocked (admins and owners only). */
   protected_ips?: string[];
+  /** "site": blocks reach only this domain; "server": the whole server, including every domain in `serves`. */
+  block_scope: 'site' | 'server';
+  serves?: string[];
 }
 
 export interface Totals {
